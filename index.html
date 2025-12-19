@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Tienda</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <i class="fas fa-bars" id="menu-toggle"></i>
+    </div>
+
+    <div class="header-center">
+        <img src="img/logoh.jpeg" alt="Logo" class="logo">
+        <h1>Mi Tienda</h1>
+    </div>
+
+    <div class="header-right">
+        
+        
+         <input type="text" id="search" placeholder="Buscar producto..." onkeyup="searchProducts()">
+    </div>
+</header>
+
+
+<!-- Menú desplegable -->
+<nav id="menu" class="menu">
+    <a href="index.html">Home</a>
+    <a href="categoria.html">Catalogue</a>
+    <a href="contacto.html">Contacto</a>
+</nav>
+
+
+
+
+
+<section class="products-section">
+  <h2 class="section-title">Products</h2>
+
+  <div class="products-grid">
+    <!-- Producto 1 -->
+    <div class="product">
+      <img src="img/airpds.jpeg" alt="Pods Pro 2" />
+      <h3>Pods Pro 2</h3>
+      <p class="price" data-price="23.95" >23,95 EUR</p>
+    </div>
+
+    <!-- Producto 2 -->
+    <div class="product">
+      <img src="img/maxes.jpeg" alt="Maxes" />
+      <h3>Maxes</h3>
+      <p class="price"  data-price="30.95">30,95 EUR</p>
+    </div>
+
+    <!-- Producto 3 -->
+    <div class="product">
+      <img src="img/hoodi.jpeg" alt="Den1m hoodie" />
+      <h3>Den1m hoodie</h3>
+      <p class="price" data-price="25.95">25,95 EUR</p>
+    </div>
+
+    <!-- Producto 4 -->
+    <div class="product">
+      <img src="img/sni.jpeg" alt="Slides" />
+      <h3>Slides</h3>
+      <p class="price" data-price="19.95">19,95 EUR</p>
+    </div>
+  </div>
+</section>
+
+
+<div class="accordion">
+
+  <h1>Contenido desplegable</h1>
+
+  <details>
+    <summary>
+      <span class="icon">☐ ℹ️</span>
+      Sobre nosotros
+    </summary>
+    <p>
+      Hace 4 años comenzamos revendiendo AirPods.
+      Después de unos meses, nos dimos cuenta de que era una buena oportunidad
+      para generar ingresos, por lo que empezamos a ampliar nuestra oferta.
+      <br><br>
+      Más adelante, comenzamos a revender distintos productos.
+      Nuestro equipo se complace en presentarles uno de los mejores proveedores
+      a nivel mundial.
+    </p>
+  </details>
+
+  <details>
+    <summary>
+      <span class="icon">☐ 🚚</span>
+      Tiempos de entrega
+    </summary>
+    <p>
+      Aproximadamente entre 3 y 7 días desde la fábrica del proveedor.
+    </p>
+  </details>
+
+
+</div>
+<img class="foto-acordeon" src="img/sells.jpeg">
+<footer class="footer">
+
+  <h2>Mi tienda</h2>
+  <h3>Decorations Center</h3>
+
+  <p>
+    Nuestra prioridad es la satisfacción de nuestros clientes.
+    Nos enorgullece ofrecer productos de alta calidad.
+    Estamos aquí para construir confianza, aportar valor y asegurarnos
+    de que nuestros clientes tengan una experiencia de compra fluida y segura.
+  </p>
+
+    <p class="title">Suscríbete a nuestros e-mails</p>
+
+  <div class="email-box">
+    <input type="email" placeholder="Email">
+    <button>→</button>
+  </div>
+
+  <button class="follow-btn">
+    ♡ Follow on shop
+  </button>
+
+  <select id="country">
+  <option value="EUR">España | EUR </option>
+  <option value="MAD">Marruecos | MAD</option>
+  <option value="USD">Estados Unidos | $</option>
+  <option value="GBP">Reino Unido |  £</option>
+  <option value="EGP">Egipto | EGP</option>
+  
+  <!-- puedes añadir TODOS los países -->
+   </select>
+   <a href="https://wa.me/6784346857697"
+   class="whatsapp-btn"
+   target="_blank"
+   title="Contactar por WhatsApp">
+    <img src="img/Capture d’écran_18-12-2025_17385_www.bing.com.jpeg" alt="WhatsApp">
+</a>
+
+  
+  
+
+
+
+
+</footer>
+<script>
+const select = document.getElementById("country");
+const prices = document.querySelectorAll(".products-section .price");
+
+const currencies = {
+  EUR: { rate: 1, symbol: "€", label: "EUR" },
+  USD: { rate: 1.1, symbol: "$", label: "USD" },
+  MAD: { rate: 10.9, symbol: "", label: "MAD" },
+  GBP: { rate: 0.85, symbol: "£", label: "GBP" }
+};
+
+function updatePrices(currency) {
+  if (!currencies[currency]) return;
+
+  const { rate, symbol, label } = currencies[currency];
+
+  prices.forEach(price => {
+    const basePrice = parseFloat(price.dataset.price);
+    const newPrice = (basePrice * rate).toFixed(2).replace(".", ",");
+    price.textContent = `${symbol}${newPrice} ${label}`;
+  });
+}
+
+/* CUANDO CAMBIA EL SELECT */
+select.addEventListener("change", () => {
+  updatePrices(select.value);
+});
+
+/* PRECIO INICIAL */
+updatePrices("EUR");
+</script>
+
+<script>
+function searchProducts() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let products = document.querySelectorAll(".product");
+
+  products.forEach(product => {
+    let name = product.innerText.toLowerCase();
+    product.style.display = name.includes(input) ? "block" : "none";
+  });
+}
+</script>
+<!-- JS -->
+<script>
+  const menu = document.getElementById("menu");
+  document.getElementById("menu-toggle").onclick = () => menu.classList.add("active");
+  document.getElementById("close-menu").onclick = () => menu.classList.remove("active");
+
+  function searchProducts() {
+    const input = document.getElementById("search").value.toLowerCase();
+    document.querySelectorAll(".product").forEach(p => {
+      p.style.display = p.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

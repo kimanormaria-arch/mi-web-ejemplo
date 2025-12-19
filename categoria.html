@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mi Tienda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<style>
+  
+
+/* ===== PANEL FILTER ===== */
+.filter-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+  background: #111;
+  padding: 20px;
+  transition: 0.3s;
+  z-index: 999;
+}
+.filter-panel.active { right: 0; }
+.filter-view { display: none; }
+.filter-view.active { display: block; }
+.filter-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.filter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}
+#applyBtn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <i class="fas fa-bars" id="menu-toggle"></i>
+    </div>
+
+    <div class="header-center">
+        <img src="img/logoh.jpeg" alt="Logo" class="logo">
+        <h1>Mi Tienda</h1>
+    </div>
+
+    <div class="header-right">
+        
+        
+         <input type="text" id="search" placeholder="Buscar producto..." onkeyup="searchProducts()">
+    </div>
+</header>
+
+
+<!-- Menú desplegable -->
+<nav id="menu" class="menu">
+    <a href="index.html">Home</a>
+    <a href="categoria.html">Catalogue</a>
+    <a href="contacto.html">Contacto</a>
+</nav>
+
+<section class="products-section">
+  
+  <div class="catalogue-header">
+    <span id="openFilter"><i class="fas fa-sliders-h"></i> Filter and sort</span>
+    <span class="count">4 products</span>
+  </div>
+
+  <div class="products-grid" id="products">
+    <div class="product" data-name="Pods Pro 2" data-price="23.95">
+      <img src="img/airpds.jpeg" alt="Pods Pro 2" />
+      <h3>Pods Pro 2</h3>
+      <p class="price">23,95 EUR</p>
+    </div>
+    <div class="product" data-name="Maxes" data-price="30.95">
+      <img src="img/maxes.jpeg" alt="Maxes" />
+      <h3>Maxes</h3>
+      <p class="price">30,95 EUR</p>
+    </div>
+    <div class="product" data-name="Den1m hoodie" data-price="25.95">
+      <img src="img/hoodi.jpeg" alt="Den1m hoodie" />
+      <h3>Den1m hoodie</h3>
+      <p class="price">25,95 EUR</p>
+    </div>
+    <div class="product" data-name="Slides" data-price="19.95">
+      <img src="img/sni.jpeg" alt="Slides" />
+      <h3>Slides</h3>
+      <p class="price">19,95 EUR</p>
+    </div>
+  </div>
+</section>
+
+<!-- PANEL FILTER -->
+<div class="filter-panel" id="filterPanel">
+  <div class="filter-view active" id="mainFilter">
+    <div class="filter-top">
+      <h3>Filter and sort</h3>
+      <span id="closeFilter">✕</span>
+    </div>
+
+    <div class="filter-item">
+      <span>Sort by</span>
+      <select id="sort">
+        <option value="featured">Featured</option>
+        <option value="az">Alphabetically, A–Z</option>
+        <option value="za">Alphabetically, Z–A</option>
+        <option value="low">Price, low to high</option>
+        <option value="high">Price, high to low</option>
+      </select>
+    </div>
+
+    <button id="applyBtn">Apply</button>
+  </div>
+</div>
+
+<script>
+// BUSCADOR
+function searchProducts() {
+  const input = document.getElementById("search").value.toLowerCase();
+  document.querySelectorAll(".product").forEach(p => {
+    p.style.display = p.dataset.name.toLowerCase().includes(input) ? "block" : "none";
+  });
+}
+
+// PANEL ABRIR / CERRAR
+const openFilter = document.getElementById("openFilter");
+const closeFilter = document.getElementById("closeFilter");
+const panel = document.getElementById("filterPanel");
+openFilter.onclick = () => panel.classList.add("active");
+closeFilter.onclick = () => panel.classList.remove("active");
+
+// BOTON APPLY SORT
+const applyBtn = document.getElementById("applyBtn");
+applyBtn.onclick = () => {
+  const sort = document.getElementById("sort").value;
+  const container = document.getElementById("products");
+  let items = Array.from(container.children);
+
+  if(sort === "az") items.sort((a,b)=>a.dataset.name.localeCompare(b.dataset.name));
+  if(sort === "za") items.sort((a,b)=>b.dataset.name.localeCompare(a.dataset.name));
+  if(sort === "low") items.sort((a,b)=>a.dataset.price - b.dataset.price);
+  if(sort === "high") items.sort((a,b)=>b.dataset.price - a.dataset.price);
+
+  container.innerHTML = "";
+  items.forEach(i=>container.appendChild(i));
+  panel.classList.remove("active");
+};
+</script>
+<script>
+  const menu = document.getElementById("menu");
+  document.getElementById("menu-toggle").onclick = () => menu.classList.add("active");
+  document.getElementById("close-menu").onclick = () => menu.classList.remove("active");
+
+  function searchProducts() {
+    const input = document.getElementById("search").value.toLowerCase();
+    document.querySelectorAll(".product").forEach(p => {
+      p.style.display = p.innerText.toLowerCase().includes(input) ? "block" : "none";
+    });
+  }
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
+
